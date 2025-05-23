@@ -22,16 +22,16 @@ var canvasSize = 200;
 // }
 
 function updateCanvasSize() {
-    const canvasSize = parseInt(document.getElementById('input-field-size').value, 10) || 500;
+	const canvasSize = parseInt(document.getElementById('input-field-size').value, 10) || 500;
 
-    const canvas = document.getElementById('canvas');
-    const context = canvas.getContext('2d');
+	const canvas = document.getElementById('canvas');
+	const context = canvas.getContext('2d');
 
-    canvas.width = canvas.height = canvasSize;
+	canvas.width = canvas.height = canvasSize;
 
-    context.setTransform(1, 0, 0, 1, 0, 0); // Reset transform
-    context.translate(canvasSize * 0.5, canvasSize * 0.5);
-    context.scale(canvasSize * 0.45, canvasSize * 0.45);
+	context.setTransform(1, 0, 0, 1, 0, 0); // Reset transform
+	context.translate(canvasSize * 0.5, canvasSize * 0.5);
+	context.scale(canvasSize * 0.45, canvasSize * 0.45);
 }
 updateCanvasSize();
 
@@ -39,10 +39,7 @@ window.addEventListener('resize', updateCanvasSize);
 
 function drawGrid(drawPositions, drawSectors) {
 	context.clearRect(-2, -2, 4, 4);
-
-	// context.strokeStyle = '#AAA';
 	context.strokeStyle = document.getElementById('input-field-line-color').value;
-	// context.lineWidth = 0.006;
 	context.lineWidth = document.getElementById('input-field-line-width').value / 1000;
 	context.lineCap = context.lineJoin = 'round';
 	// context.lineOpacity = document.getElementById('input-field-line-color-transparency').value;
@@ -59,6 +56,41 @@ function drawGrid(drawPositions, drawSectors) {
 		}
 	}
 	context.stroke();
+}
+
+function drawGridToSVG(grid, options) {
+	const xmlns = 'http://www.w3.org/2000/svg';
+	const svg = document.createElementNS(xmlns, 'svg');
+	const size = parseInt(document.getElementById('input-field-size').value, 10);
+	svg.setAttribute('width', size);
+	svg.setAttribute('height', size);
+	svg.setAttribute('viewBox', '-2 -2 4 4');
+	svg.setAttribute('xmlns', xmlns);
+
+	const lineColor = document.getElementById('input-field-line-color').value;
+	const lineWidth = document.getElementById('input-field-line-width').value / 1000;
+
+	for (let i = 0; i < grid.points.length; i++) {
+		const point = grid.points[i];
+		const neighbours = grid.neighbours[i];
+
+		for (let k = 0; k < neighbours.length; k++) {
+			const npoint = grid.points[neighbours[k]];
+
+			const line = document.createElementNS(xmlns, 'line');
+			line.setAttribute('x1', point[0]);
+			line.setAttribute('y1', point[1]);
+			line.setAttribute('x2', npoint[0]);
+			line.setAttribute('y2', npoint[1]);
+			line.setAttribute('stroke', lineColor);
+			line.setAttribute('stroke-width', lineWidth);
+			line.setAttribute('stroke-linecap', 'round');
+
+			svg.appendChild(line);
+		}
+	}
+
+	return svg;
 }
 
 let dirty = true; // Initialzustand, falls nötig
@@ -117,7 +149,7 @@ function setAsDirty() {
 	requestAnimationFrame(loop);
 })();
 
-document.getElementById('btn-download').addEventListener('click', () => {
+document.getElementById('btn-download-png').addEventListener('click', () => {
 	const canvas = document.getElementById('canvas');
 	if (!canvas) {
 		alert('Canvas not found!');
@@ -131,7 +163,7 @@ document.getElementById('btn-download').addEventListener('click', () => {
 	const relax = document.getElementById('dropdown-innerRelaxation').value;
 	const lineWidth = document.getElementById('input-field-line-width').value;
 	const lineColor = document.getElementById('input-field-line-color').value.replace('#', '');
-	const canvasSize = document.getElementById('input-field-size').value
+	const canvasSize = document.getElementById('input-field-size').value;
 
 	// Dateiname zusammensetzen
 	const filename = `hexgrid_${sides}_${seed}_${grouping}_${relax}_${lineWidth}_${lineColor}_${canvasSize}x${canvasSize}.png`;
@@ -146,7 +178,7 @@ document.getElementById('btn-download').addEventListener('click', () => {
 	link.click();
 });
 
-document.getElementById('btn-download-rotation').addEventListener('click', () => {
+document.getElementById('btn-download-png-rotation').addEventListener('click', () => {
 	const originalCanvas = document.getElementById('canvas');
 	if (!originalCanvas) {
 		alert('Canvas not found!');
@@ -169,7 +201,7 @@ document.getElementById('btn-download-rotation').addEventListener('click', () =>
 	const zip = new JSZip();
 
 	for (let angleDeg of angles) {
-		const angleRad = angleDeg * Math.PI / 180;
+		const angleRad = (angleDeg * Math.PI) / 180;
 
 		ctx.setTransform(1, 0, 0, 1, 0, 0);
 		ctx.clearRect(0, 0, canvasSize, canvasSize);
@@ -181,25 +213,111 @@ document.getElementById('btn-download-rotation').addEventListener('click', () =>
 		const dataUrl = offCanvas.toDataURL('image/png');
 		const base64Data = dataUrl.split(',')[1];
 		const filename = `hexgrid_${sides}_${seed}_${grouping}_${relax}_${lineWidth}_${lineColor}_${canvasSize}x${canvasSize}_${angleDeg}.png`;
-		zip.file(filename, base64Data, { base64: true });
+		zip.file(filename, base64Data, {base64: true});
 	}
 
-	zip.generateAsync({ type: 'blob' }).then((blob) => {
-		saveAs(blob, `hexgrid_rotations_${sides}_${seed}_${grouping}_${relax}_${lineWidth}_${lineColor}_${canvasSize}x${canvasSize}.zip`);
+	zip.generateAsync({type: 'blob'}).then((blob) => {
+		saveAs(
+			blob,
+			`hexgrid_rotations_${sides}_${seed}_${grouping}_${relax}_${lineWidth}_${lineColor}_${canvasSize}x${canvasSize}.zip`
+		);
 	});
 });
 
 document.getElementById('btn-random-seed').addEventListener('click', () => {
-    const randomSeed = Math.floor(Math.random() * 65535) + 1;
+	const randomSeed = Math.floor(Math.random() * 65535) + 1;
 
-    const seedRange = document.getElementById('input-field-seed');
-    const seedNumber = seedRange.nextElementSibling; // Das entsprechende <input type="number">
+	const seedRange = document.getElementById('input-field-seed');
+	const seedNumber = seedRange.nextElementSibling; // Das entsprechende <input type="number">
 
-    seedRange.value = randomSeed;
-    seedNumber.value = randomSeed;
+	seedRange.value = randomSeed;
+	seedNumber.value = randomSeed;
 
-    // // Falls du die dirty-Mechanik nutzt
-    // if (typeof setAsDirty === 'function') {
-    //     setAsDirty();
-    // }
+	// // Falls du die dirty-Mechanik nutzt
+	// if (typeof setAsDirty === 'function') {
+	//     setAsDirty();
+	// }
+});
+
+document.getElementById('btn-download-svg').addEventListener('click', () => {
+	const svgElement = drawGridToSVG(grid, options);
+	const serializer = new XMLSerializer();
+	const svgString = serializer.serializeToString(svgElement);
+	const blob = new Blob([svgString], {type: 'image/svg+xml;charset=utf-8'});
+
+	const sides = document.getElementById('input-field-sideCount').value;
+	const seed = document.getElementById('input-field-seed').value;
+	const grouping = document.getElementById('input-field-grouping').value;
+	const relax = document.getElementById('dropdown-innerRelaxation').value;
+	const lineWidth = document.getElementById('input-field-line-width').value;
+	const lineColor = document.getElementById('input-field-line-color').value.replace('#', '');
+	const canvasSize = parseInt(document.getElementById('input-field-size').value, 10);
+
+	const link = document.createElement('a');
+	link.href = URL.createObjectURL(blob);
+	link.download = `hexgrid_${sides}_${seed}_${grouping}_${relax}_${lineWidth}_${lineColor}_${canvasSize}x${canvasSize}.svg`;
+	link.click();
+});
+
+document.getElementById('btn-download-svg-rotation').addEventListener('click', () => {
+	const sides = document.getElementById('input-field-sideCount').value;
+	const seed = document.getElementById('input-field-seed').value;
+	const grouping = document.getElementById('input-field-grouping').value;
+	const relax = document.getElementById('dropdown-innerRelaxation').value;
+	const lineWidth = document.getElementById('input-field-line-width').value;
+	const lineColor = document.getElementById('input-field-line-color').value;
+	const canvasSize = parseInt(document.getElementById('input-field-size').value, 10);
+	const scale = canvasSize * 0.45;
+
+	const zip = new JSZip();
+	const angles = [0, 60, 120, 180, 240, 300];
+
+	angles.forEach((angleDeg) => {
+		const svgParts = [];
+
+		svgParts.push(`<?xml version="1.0" standalone="no"?>`);
+		svgParts.push(
+			`<svg xmlns="http://www.w3.org/2000/svg" width="${canvasSize}" height="${canvasSize}" viewBox="-1 -1 2 2">`
+		);
+		svgParts.push(`<g transform="translate(0,0) scale(1) rotate(${angleDeg})">`);
+
+		svgParts.push(
+			`<g stroke="${lineColor}" stroke-width="${
+				lineWidth / 1000
+			}" fill="none" stroke-linecap="round" stroke-linejoin="round">`
+		);
+
+		for (let i = 0; i < grid.points.length; i++) {
+			const point = grid.points[i];
+			const neighbours = grid.neighbours[i];
+
+			for (let k = 0; k < neighbours.length; k++) {
+				const npoint = grid.points[neighbours[k]];
+
+				svgParts.push(
+					`<line x1="${point[0]}" y1="${point[1]}" x2="${npoint[0]}" y2="${npoint[1]}" />`
+				);
+			}
+		}
+
+		svgParts.push(`</g></g></svg>`);
+
+		const blob = new Blob([svgParts.join('\n')], {type: 'image/svg+xml'});
+		const filename = `hexgrid_${sides}_${seed}_${grouping}_${relax}_${lineWidth}_${lineColor.replace(
+			'#',
+			''
+		)}_${canvasSize}x${canvasSize}_${angleDeg}.svg`;
+
+		zip.file(filename, blob);
+	});
+
+	zip.generateAsync({type: 'blob'}).then((blob) => {
+		saveAs(
+			blob,
+			`hexgrid_rotations_svg_${sides}_${seed}_${grouping}_${relax}_${lineWidth}_${lineColor.replace(
+				'#',
+				''
+			)}_${canvasSize}x${canvasSize}.zip`
+		);
+	});
 });
