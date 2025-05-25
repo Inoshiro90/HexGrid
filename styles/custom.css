@@ -15,7 +15,7 @@ canvas {
 	/* box-sizing: border-box; */
 	color: rgb(33, 37, 41);
 	/* display: block; */
-	max-width: 50% !important;
+	max-width: 30% !important;
 	/* max-height: 25% !important; */
 	margin-top: 5%;
 }
@@ -31,4 +31,9 @@ p a {
 	color: #35f;
 	font-weight: bold;
 	text-decoration: none;
+}
+
+html {
+	overflow-y: scroll;
+	scroll-behavior: smooth;
 }
