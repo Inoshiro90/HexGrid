@@ -4,7 +4,7 @@ function updateCanvasSize() {
 	const canvas = document.getElementById('canvas');
 	const context = canvas.getContext('2d');
 	canvas.height = canvasSize;
-	canvas.width = canvas.height * 0.87;
+	canvas.width = Math.round(canvas.height * 0.87);
 
 	// canvas.height = parseInt(document.getElementById('input-field-size').value, 10);
 	// canvas.width = Math.round((canvas.height * 157) / 180);

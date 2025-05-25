@@ -15,9 +15,9 @@ document.getElementById('btn-download-png').addEventListener('click', () => {
 	const canvasSize = document.getElementById('input-field-size').value;
 
 	// Dateiname zusammensetzen
-	const filename = `hexgrid_${sides}_${seed}_${grouping}_${relax}_${lineWidth}_${lineColor}_${canvasSize}x${
+	const filename = `hexgrid_${sides}_${seed}_${grouping}_${relax}_${lineWidth}_${lineColor}_${canvasSize}x${Math.round(
 		canvasSize * 0.87
-	}.png`;
+	)}.png`;
 
 	// Canvas als PNG exportieren
 	const image = canvas.toDataURL('image/png');
