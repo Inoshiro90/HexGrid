@@ -3,86 +3,93 @@
 
 <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
     <link rel="stylesheet" href="styles/custom.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 <body>
-    <div class="container mt-5">
-        <fieldset>
-            <h1><b>Generation</b></h1>
-            <div class="control mb-3">
-                <label for="input-field-sideCount"><b>Sides: </b></label>
+    <div class="container-fluid">
+        <h1><b>HexGrid</b></h1>
+        <div class="row">
+            <div class="col-md-6 col-lg-4 mb-3">
+                <p><b>Sides:</b></p>
+                <input type="number" class="form-control mb-2" style="width:auto"
+                    oninput="this.nextElementSibling.value = this.value" min="2" max="18" step="1" value="6">
                 <input type="range" id="input-field-sideCount" name="sideCount" min="2" max="18" step="1" value="6"
-                    oninput="this.nextElementSibling.value = this.value">
-                <input type="number" oninput="this.previousElementSibling.value = this.value" min="2" max="18" step="1"
-                    value="6"></input>
+                    oninput="this.previousElementSibling.value = this.value">
             </div>
-            <div class="control mb-3">
-                <label for="input-field-seed"><b>Seed: </b></label>
-                <input type="range" id="input-field-seed" name="seed" min="1" max="65535" step="1" value="1234"
+
+            <div class="col-md-6 col-lg-4 mb-3">
+                <p><b>Seed:</b></p>
+                <input type="number" id="input-field-seed" class="form-control mb-2" style="width:auto"
+                    oninput="this.nextElementSibling.value = this.value" min="1" max="65535" step="1" value="1234">
+                <input type="range" id="input-field-seed-slider" name="seed" min="1" max="65535" step="1" value="1234"
                     oninput="this.nextElementSibling.value = this.value">
-                <input type="number" oninput="this.previousElementSibling.value = this.value" min="1" max="65535"
-                    step="1" value="1234"></input>
+                <br>
+                <button id="btn-random-seed" oninput="this.previousElementSibling.value = this.value"
+                    class="btn btn-secondary mt-1">
+                    Random Seed
+                </button>
             </div>
-            <button id="btn-random-seed" oninput="this.previousElementSibling.value = this.value"
-                class="btn btn-secondary mt-1">
-                Random Seed
-            </button>
-            <br><br>
-            <div class="control mb-3">
-                <label for="input-field-grouping"><b>Grouping: </b></label>
-                <input type="range" id="input-field-grouping" name="grouping" min="1" max="20" step="1" value="5"
-                    oninput="this.nextElementSibling.value = this.value">
-                <input type="number" oninput="this.previousElementSibling.value = this.value" min="1" max="20" step="1"
-                    value="5"></input>
+            <div class="col-md-6 col-lg-4 mb-3">
+                <p><b>Grouping:</b></p>
+                <input type="number" class="form-control mb-2" style="width:auto"
+                    oninput="this.nextElementSibling.value = this.value" min="1" max="20" step="1" value="10">
+                <input type="range" id="input-field-grouping" name="grouping" min="1" max="20" step="1" value="10"
+                    oninput="this.previousElementSibling.value = this.value">
             </div>
-            <div class="control mb-3">
-                <label for="dropdown-innerRelaxation"><b>Inner Relaxation: </b></label>
-                <select id="dropdown-innerRelaxation" name="innerRelaxation">
+            <div class="col-md-6 col-lg-4 mb-3">
+                <p><b>Inner Relaxation:</b></p>
+                <select class="form-select" style="width:auto" id="dropdown-innerRelaxation" name="innerRelaxation">
                     <option>None</option>
                     <option selected>Base</option>
                     <option>Weighted</option>
                 </select>
             </div>
-            <label for="input-field-line-width"><b>Line width:</b></label>
-            <div class="d-flex align-items-center mb-3">
-                <input type="number" class="form-control small-dropdown col-md-1" id="input-field-line-width" value="10"
-                    min="1">
-                <!-- <span>&nbsp point(s)</span> -->
+            <div class="col-md-6 col-lg-4 mb-3">
+                <p><b>Line width:</b></p>
+                <input type="number" class="form-control mb-2" style="width:auto" id="input-field-line-width"
+                    oninput="this.nextElementSibling.value = this.value" min="1" max="100" step="1" value="10">
+                <input type="range" id="input-field-line-width-slider" name="linewidth" min="1" max="100" step="1"
+                    value="10" oninput="this.previousElementSibling.value = this.value">
             </div>
-            <label for="input-field-line-color"><b>Line color:</b></label>
-            <div class="d-flex align-items-center mb-3">
-                <input type="color" value="#000000" id="input-field-line-color" />
+            <div class="col-md-6 col-lg-4 mb-3">
+                <label for="input-field-line-color"><b>Line color:</b></label>
+                <div class="mt-2">
+                    <input type="color" value="#000000" id="input-field-line-color" />
+                </div>
             </div>
-            <!-- <label for="input-field-line-color-transparency"><b>Line transparency:</b></label> -->
-            <!-- <div class="d-flex align-items-center mb-3">
-                <input type="range" min="0" max="100" value="100" id="input-field-line-color-transparency"
-                    oninput="this.nextElementSibling.value = this.value" />
-                <output>100</output>
-            </div> -->
-            <div class="control mb-2">
-                <label for="input-field-size"><b>Height: </b></label>
-                <label>
-                    <input class="w-55" type="number" id="input-field-size" name="size" min="480" max="4096"
-                        value="1080"> px
-                </label>
+            <div class="col-md-6 col-lg-4 mb-3">
+                <p><b>Height in px:</b></p>
+                <input type="number" class="form-control mb-2" style="width:auto" id="input-field-size" min="480"
+                    max="4096" value="1080">
             </div>
-        </fieldset>
-        <button id="btn-generate" class="btn btn-secondary mt-1">
-            Generate
-        </button>
-        <br>
-        <button id="btn-download-png" class="btn btn-secondary mt-1">
-            Download PNG
-        </button>
+            <div class="col-md-6 col-lg-4 mb-3 align-self-center"> <button id="btn-generate"
+                    class="btn btn-secondary align-self-center">
+                    Generate
+                </button></div>
+
+            <br>
+            <div class="col-md-6 col-lg-4 mb-3 align-self-center">
+                <button id="btn-download-png" class="btn btn-secondary mt-13">
+                    Download PNG
+                </button>
+            </div>
+        </div>
         <!-- <button id="btn-download-png-rotation" class="btn btn-secondary mt-1">
             Download PNG Rotations
         </button>
         <br>
         <button id="btn-download-svg" class="btn btn-secondary mt-1">Download SVG</button>
         <button id="btn-download-svg-rotation" class="btn btn-secondary mt-1">Download SVG Rotations</button> -->
-        <canvas id="canvas" width="250" height="250"></canvas>
+        <div style="text-align: center;">
+            <canvas style="width: auto" id="canvas"></canvas>
+        </div>
+
     </div>
     <script src="scripts/btn-download-png.js"></script>
     <script src="scripts/btn-download-png-rotation.js"></script>
@@ -103,8 +110,6 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.0/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-
-    <!-- <script src="vendor/dat.gui.min.js"></script> -->
 </body>
 
 </html>
