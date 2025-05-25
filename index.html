@@ -12,14 +12,14 @@
         <fieldset>
             <h1><b>Generation</b></h1>
             <div class="control mb-3">
-                <label for="input-field-sideCount">Sides</label>
+                <label for="input-field-sideCount"><b>Sides: </b></label>
                 <input type="range" id="input-field-sideCount" name="sideCount" min="2" max="18" step="1" value="6"
                     oninput="this.nextElementSibling.value = this.value">
                 <input type="number" oninput="this.previousElementSibling.value = this.value" min="2" max="18" step="1"
                     value="6"></input>
             </div>
             <div class="control mb-3">
-                <label for="input-field-seed">Seed</label>
+                <label for="input-field-seed"><b>Seed: </b></label>
                 <input type="range" id="input-field-seed" name="seed" min="1" max="65535" step="1" value="1234"
                     oninput="this.nextElementSibling.value = this.value">
                 <input type="number" oninput="this.previousElementSibling.value = this.value" min="1" max="65535"
@@ -31,14 +31,14 @@
             </button>
             <br><br>
             <div class="control mb-3">
-                <label for="input-field-grouping">Grouping</label>
+                <label for="input-field-grouping"><b>Grouping: </b></label>
                 <input type="range" id="input-field-grouping" name="grouping" min="1" max="20" step="1" value="5"
                     oninput="this.nextElementSibling.value = this.value">
                 <input type="number" oninput="this.previousElementSibling.value = this.value" min="1" max="20" step="1"
                     value="5"></input>
             </div>
             <div class="control mb-3">
-                <label for="dropdown-innerRelaxation">Inner Relaxation</label>
+                <label for="dropdown-innerRelaxation"><b>Inner Relaxation: </b></label>
                 <select id="dropdown-innerRelaxation" name="innerRelaxation">
                     <option>None</option>
                     <option selected>Base</option>
@@ -62,7 +62,7 @@
                 <output>100</output>
             </div> -->
             <div class="control mb-2">
-                <label for="input-field-size">Size</label>
+                <label for="input-field-size"><b>Height: </b></label>
                 <label>
                     <input class="w-55" type="number" id="input-field-size" name="size" min="480" max="4096"
                         value="1080"> px

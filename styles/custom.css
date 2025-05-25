@@ -17,6 +17,7 @@ canvas {
 	/* display: block; */
 	max-width: 50% !important;
 	/* max-height: 25% !important; */
+	margin-top: 5%;
 }
 
 p {
