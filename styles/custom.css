@@ -18,3 +18,11 @@ html {
 	overflow-y: scroll;
 	scroll-behavior: smooth;
 }
+
+#svg_hexgrid {
+  width: 100%;       /* SVG füllt die Breite seines Containers */
+  height: auto;      /* Höhe passt sich proportional an */
+  max-width: 500px;  /* Optional: maximale Breite z.B. 600px */
+  display: block;    /* Verhindert unerwünschte Inline-Abstände */
+  margin: 0 auto;    /* Zentriert das SVG horizontal */
+}
