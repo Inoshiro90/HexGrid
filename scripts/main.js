@@ -36,5 +36,6 @@ let dirty = true; // Initialzustand, falls nötig
 	}
 
 	drawGrid(options.drawPositions, options.drawSectors);
+	drawSVGGridAll();
 	requestAnimationFrame(loop);
 })();
