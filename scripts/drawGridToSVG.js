@@ -3,12 +3,12 @@ function drawGridToSVG(grid, options) {
 	const svg = document.createElementNS(xmlns, 'svg');
 	const size = parseInt(document.getElementById('input-field-size').value, 10);
 	svg.setAttribute('width', size);
-	svg.setAttribute('height', size);
+	svg.setAttribute('height', size * aspectRatio);
 	svg.setAttribute('viewBox', '-2 -2 4 4');
 	svg.setAttribute('xmlns', xmlns);
 
 	const lineColor = document.getElementById('input-field-line-color').value;
-	const lineWidth = document.getElementById('input-field-line-width').value / 1000;
+	const lineWidth = document.getElementById('input-field-line-width').value ;
 
 	for (let i = 0; i < grid.points.length; i++) {
 		const point = grid.points[i];

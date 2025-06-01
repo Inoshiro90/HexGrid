@@ -53,8 +53,8 @@
             <div class="col-md-6 col-lg-4 mb-3">
                 <p><b>Line width:</b></p>
                 <input type="number" class="form-control mb-2" style="width:auto" id="input-field-line-width"
-                    oninput="this.nextElementSibling.value = this.value" min="1" max="100" step="1" value="10">
-                <input type="range" id="input-field-line-width-slider" name="linewidth" min="1" max="100" step="1"
+                    oninput="this.nextElementSibling.value = this.value" min="1" max="50" step="1" value="10">
+                <input type="range" id="input-field-line-width-slider" name="linewidth" min="1" max="50" step="1"
                     value="10" oninput="this.previousElementSibling.value = this.value">
             </div>
             <div class="col-md-6 col-lg-4 mb-3">
@@ -92,7 +92,7 @@
             <h2>canvas</h2>
             <canvas style="width: auto" id="canvas"></canvas>
         </div>
-        <div style="text-align: center;">
+        <div class="mb-2" style="text-align: center;">
             <h2>svg</h2>
             <svg viewBox="-0.87309 -0.55 1.7435 1.1" width="940" height="1080" id="svg_hexgrid"
                 xmlns="http://www.w3.org/2000/svg"> </svg>
@@ -135,6 +135,7 @@
     <script src="scripts/btn-download-svg-rotation.js"></script>
     <script src="scripts/btn-generate.js"></script>
     <script src="scripts/btn-random-seed.js"></script>
+    <script src="scripts/adjustSVGViewBoxForStroke.js"></script>
 
     <script src="scripts/setAsDirty.js"></script>
     <script src="scripts/options.js"></script>
