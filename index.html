@@ -82,18 +82,35 @@
             <div class="col-md-6 col-lg-4 mb-3 align-self-center">
                 <button id="btn-download-svg-rotation" class="btn btn-secondary mt-1">Download SVG Rotations</button>
             </div>
+            <div class="col-md-6 col-lg-4 mb-3 align-self-center">
+                <button id="btn-download-png-rotation" class="btn btn-secondary mt-1">
+                    Download PNG Rotations
+                </button>
+            </div>
         </div>
-        <!-- <button id="btn-download-png-rotation" class="btn btn-secondary mt-1">
-            Download PNG Rotations
-        </button> -->
         <br>
-
-        <div style="text-align: center;">
+        <div style="text-align: center; display: none">
             <h2>canvas</h2>
-            <canvas style="width: auto" id="canvas"></canvas>
+            <canvas class="canvas" style="width: auto" id="canvas"></canvas>
         </div>
+        <div style="text-align: center; display: none">
+            <canvas class="canvas" style="width: auto" id="canvas_60"></canvas>
+        </div>
+        <div style="text-align: center; display: none">
+            <canvas class="canvas" style="width: auto" id="canvas_120"></canvas>
+        </div>
+        <div style="text-align: center; display: none">
+            <canvas class="canvas" style="width: auto" id="canvas_180"></canvas>
+        </div>
+        <div style="text-align: center; display: none">
+            <canvas class="canvas" style="width: auto" id="canvas_240"></canvas>
+        </div>
+        <div style="text-align: center; display: none">
+            <canvas class="canvas" style="width: auto" id="canvas_300"></canvas>
+        </div>
+
         <div class="mb-2" style="text-align: center;">
-            <h2>svg</h2>
+            <!-- <h2>svg</h2> -->
             <svg viewBox="-0.87309 -0.55 1.7435 1.1" width="940" height="1080" id="svg_hexgrid"
                 xmlns="http://www.w3.org/2000/svg"> </svg>
         </div>
@@ -130,7 +147,7 @@
 
     </div>
     <script src="scripts/btn-download-png.js"></script>
-    <!-- <script src="scripts/btn-download-png-rotation.js"></script> -->
+    <script src="scripts/btn-download-png-rotation.js"></script>
     <script src="scripts/btn-download-svg.js"></script>
     <script src="scripts/btn-download-svg-rotation.js"></script>
     <script src="scripts/btn-generate.js"></script>

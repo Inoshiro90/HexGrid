@@ -35,7 +35,8 @@ let dirty = true; // Initialzustand, falls nötig
 		}
 	}
 
-	drawGrid(options.drawPositions, options.drawSectors);
+	// drawGrid(options.drawPositions, options.drawSectors);
+	drawAllCanvasRotations()
 	drawSVGGridAll();
 	requestAnimationFrame(loop);
 })();
@@ -43,6 +44,7 @@ let dirty = true; // Initialzustand, falls nötig
 document
 	.getElementById('input-field-line-width')
 	.addEventListener('input', updateLineWidthAndRedraw);
+
 document
 	.getElementById('input-field-line-width-slider')
 	.addEventListener('input', updateLineWidthAndRedraw);
@@ -61,5 +63,5 @@ function updateLineWidthAndRedraw() {
 			adjustSVGViewBoxForStroke(svg);
 		}
 	});
-	console.log('Linienstärke geändert');
+	// console.log('Linienstärke geändert');
 }

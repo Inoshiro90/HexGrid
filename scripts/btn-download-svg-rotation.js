@@ -81,7 +81,7 @@ document.getElementById('btn-download-svg-rotation').addEventListener('click', (
 		if (!svgElement) return;
 
 		const svgString = serializer.serializeToString(svgElement);
-		const filename = `hexgrid_${angle}deg_${sides}_${seed}_${grouping}_${relax}_${lineWidth}_${lineColor}_${canvasSize}x${canvasSize}_${angle}.svg`;
+		const filename = `hexgrid_${sides}_${seed}_${grouping}_${relax}_${lineWidth}_${lineColor}_${canvasSize}x${canvasSize}_${angle}.svg`;
 
 		zip.file(filename, svgString);
 	});

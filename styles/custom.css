@@ -4,7 +4,7 @@ body {
 	overflow: hidden;
 }
 
-canvas {
+.canvas{
 	width: 100%;
 	height: auto;
 	max-width: 100vw; /* Volle Breite des Viewports */

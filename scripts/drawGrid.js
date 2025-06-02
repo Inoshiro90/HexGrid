@@ -1,4 +1,51 @@
-function drawGrid(drawPositions, drawSectors) {
+// function drawGrid(drawPositions, drawSectors) {
+// 	const strokeColor = document.getElementById('input-field-line-color').value;
+// 	const strokeWidthRaw = parseFloat(document.getElementById('input-field-line-width').value);
+// 	const strokeWidth = strokeWidthRaw / 1000;
+
+// 	context.setTransform(1, 0, 0, 1, 0, 0); // Reset transform
+
+// 	const marginPixels = strokeWidthRaw * 0.5;
+
+// 	const usableWidth = canvas.width - marginPixels;
+// 	const usableHeight = canvas.height - marginPixels;
+
+// 	const hexWidthInUnits = 3;
+// 	const hexHeightInUnits = hexWidthInUnits * (canvas.height / canvas.width);
+
+// 	const extraScale = 1.7275;
+
+// 	const scale =
+// 		Math.min(usableWidth / hexWidthInUnits, usableHeight / hexHeightInUnits) * extraScale;
+
+// 	context.setTransform(scale, 0, 0, -scale, canvas.width / 2, canvas.height / 2);
+
+// 	const margin = strokeWidth * 2;
+// 	context.clearRect(-2 - margin, -2 - margin, 4 + margin * 2, 4 + margin * 2);
+
+// 	context.strokeStyle = strokeColor;
+// 	context.lineWidth = strokeWidth;
+// 	context.lineCap = context.lineJoin = 'round';
+// 	context.beginPath();
+
+// 	for (let i = 0; i < grid.points.length; i++) {
+// 		const point = grid.points[i];
+// 		const neighbours = grid.neighbours[i];
+
+// 		for (let k = 0; k < neighbours.length; k++) {
+// 			const npoint = grid.points[neighbours[k]];
+// 			context.moveTo(point[0], point[1]);
+// 			context.lineTo(npoint[0], npoint[1]);
+// 		}
+// 	}
+// 	context.stroke();
+// }
+
+function drawGridRotated(suffix, angleDeg) {
+	const canvas = document.getElementById(`canvas${suffix}`);
+	if (!canvas) return;
+
+	const context = canvas.getContext('2d');
 	const strokeColor = document.getElementById('input-field-line-color').value;
 	const strokeWidthRaw = parseFloat(document.getElementById('input-field-line-width').value);
 	const strokeWidth = strokeWidthRaw / 1000;
@@ -15,14 +62,27 @@ function drawGrid(drawPositions, drawSectors) {
 
 	const extraScale = 1.7275;
 
-	const scale =
-		Math.min(usableWidth / hexWidthInUnits, usableHeight / hexHeightInUnits) * extraScale;
+	const scale = Math.min(usableWidth / hexWidthInUnits, usableHeight / hexHeightInUnits) * extraScale;
 
-	context.setTransform(scale, 0, 0, -scale, canvas.width / 2, canvas.height / 2);
+	// Rotation vorbereiten (in rad)
+	const angleRad = (angleDeg * Math.PI) / 180;
 
+	// Transformation: Skalierung, Rotation, Y-Spiegelung, Zentrierung
+	const cos = Math.cos(angleRad);
+	const sin = Math.sin(angleRad);
+
+	context.setTransform(
+		scale * cos,           // a
+		-scale * sin,          // b (Y gespiegelt)
+		scale * sin,           // c
+		scale * cos,           // d
+		canvas.width / 2,      // e
+		canvas.height / 2      // f
+	);
+
+	// Clear & Style
 	const margin = strokeWidth * 2;
 	context.clearRect(-2 - margin, -2 - margin, 4 + margin * 2, 4 + margin * 2);
-
 	context.strokeStyle = strokeColor;
 	context.lineWidth = strokeWidth;
 	context.lineCap = context.lineJoin = 'round';
@@ -39,6 +99,14 @@ function drawGrid(drawPositions, drawSectors) {
 		}
 	}
 	context.stroke();
+}
+
+function drawAllCanvasRotations() {
+	const angles = [0, 60, 120, 180, 240, 300];
+	angles.forEach((angle) => {
+		const suffix = angle === 0 ? '' : `_${angle}`;
+		drawGridRotated(suffix, angle);
+	});
 }
 
 function drawSVGGridAll() {
