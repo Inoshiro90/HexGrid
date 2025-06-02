@@ -104,7 +104,7 @@ function drawSVGGridAll() {
 
 		// Gruppiere mit Rotation
 		const group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-		group.setAttribute('transform', `rotate(${angle} 0 0)`);
+		group.setAttribute('transform', `scale(1, -1) rotate(${angle} 0 0)`);
 
 		lineElements.forEach((line) => {
 			group.appendChild(line.cloneNode());
