@@ -21,7 +21,7 @@ function updateCanvasSize() {
 
 	const angles = [0, 60, 120, 180, 240, 300];
 
-	angles.forEach(angle => {
+	angles.forEach((angle) => {
 		const suffix = angle === 0 ? '' : `_${angle}`;
 		const canvas = document.getElementById(`canvas${suffix}`);
 		if (!canvas) return;
@@ -29,4 +29,7 @@ function updateCanvasSize() {
 		canvas.width = canvasWidth;
 		canvas.height = canvasHeight;
 	});
+
+	setAsDirty(); // Falls notwendig
+	drawOnce();
 }

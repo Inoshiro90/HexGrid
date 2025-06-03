@@ -7,8 +7,6 @@ var canvasSize = 200;
 
 window.addEventListener('resize', updateCanvasSize);
 
-updateCanvasSize();
-
 let dirty = true; // Initialzustand, falls nötig
 
 function drawOnce() {
@@ -35,5 +33,5 @@ function drawOnce() {
 	drawAllCanvasRotations();
 	drawSVGGridAll();
 }
-
+updateCanvasSize();
 drawOnce();
