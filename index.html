@@ -28,7 +28,7 @@
                 <input type="number" id="input-field-seed" class="form-control mb-2" style="width:auto"
                     oninput="this.nextElementSibling.value = this.value" min="1" max="65535" step="1" value="1234">
                 <input type="range" id="input-field-seed-slider" name="seed" min="1" max="65535" step="1" value="1234"
-                    oninput="this.nextElementSibling.value = this.value">
+                    oninput="this.previousElementSibling.value = this.value">
                 <br>
                 <button id="btn-random-seed" oninput="this.previousElementSibling.value = this.value"
                     class="btn btn-secondary mt-1">
