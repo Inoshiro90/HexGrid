@@ -3,149 +3,186 @@
 
 <head>
     <meta charset="utf-8">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="styles/custom.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>HexGrid</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles/custom.css">
+    <!-- Development version -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 </head>
 
 <body>
-    <div class="container-fluid">
-        <h1><b>HexGrid</b></h1>
-        <div class="row">
-            <div class="col-md-6 col-lg-4 mb-3">
-                <p><b>Sides:</b></p>
-                <input type="number" class="form-control mb-2" style="width:auto"
-                    oninput="this.nextElementSibling.value = this.value" min="2" max="18" step="1" value="6">
-                <input type="range" id="input-field-sideCount" name="sideCount" min="2" max="18" step="1" value="6"
-                    oninput="this.previousElementSibling.value = this.value">
-            </div>
 
-            <div class="col-md-6 col-lg-4 mb-3">
-                <p><b>Seed:</b></p>
-                <input type="number" id="input-field-seed" class="form-control mb-2" style="width:auto"
-                    oninput="this.nextElementSibling.value = this.value" min="1" max="65535" step="1" value="1234">
-                <input type="range" id="input-field-seed-slider" name="seed" min="1" max="65535" step="1" value="1234"
-                    oninput="this.previousElementSibling.value = this.value">
-                <br>
-                <button id="btn-random-seed" oninput="this.previousElementSibling.value = this.value"
-                    class="btn btn-secondary mt-1">
-                    Random Seed
-                </button>
-            </div>
-            <div class="col-md-6 col-lg-4 mb-3">
-                <p><b>Grouping:</b></p>
-                <input type="number" class="form-control mb-2" style="width:auto"
-                    oninput="this.nextElementSibling.value = this.value" min="1" max="20" step="1" value="10">
-                <input type="range" id="input-field-grouping" name="grouping" min="1" max="20" step="1" value="10"
-                    oninput="this.previousElementSibling.value = this.value">
-            </div>
-            <div class="col-md-6 col-lg-4 mb-3">
-                <p><b>Inner Relaxation:</b></p>
-                <select class="form-select" style="width:auto" id="dropdown-innerRelaxation" name="innerRelaxation">
-                    <option>None</option>
-                    <option selected>Base</option>
-                    <option>Weighted</option>
-                </select>
-            </div>
-            <div class="col-md-6 col-lg-4 mb-3">
-                <p><b>Line width:</b></p>
-                <input type="number" class="form-control mb-2" style="width:auto" id="input-field-line-width"
-                    oninput="this.nextElementSibling.value = this.value" min="1" max="50" step="1" value="10">
-                <input type="range" id="input-field-line-width-slider" name="linewidth" min="1" max="50" step="1"
-                    value="10" oninput="this.previousElementSibling.value = this.value">
-            </div>
-            <div class="col-md-6 col-lg-4 mb-3">
-                <label for="input-field-line-color"><b>Line color:</b></label>
-                <div class="mt-2">
-                    <input type="color" value="#000000" id="input-field-line-color" />
+    <!-- ── NAVIGATION ───────────────────────────────── -->
+    <nav class="app-nav">
+        <div class="nav-brand">
+            <span class="nav-brand-icon">⬡</span>
+            HexGrid
+        </div>
+        <div class="nav-actions">
+            <button class="theme-toggle" id="theme-toggle" title="Toggle dark mode" aria-label="Toggle dark mode">
+                🌓︎
+            </button>
+        </div>
+    </nav>
+
+    <!-- ── APP LAYOUT ───────────────────────────────── -->
+    <div class="app-layout">
+
+        <!-- ── CONTROLS SIDEBAR ─────────────────────── -->
+        <aside class="controls-panel">
+
+            <!-- Shape Section -->
+            <div class="controls-section">
+                <p class="section-label">Shape</p>
+
+                <div class="form-group">
+                    <label class="form-label">Sides</label>
+                    <div class="input-row">
+                        <!-- Number syncs to range via nextElementSibling -->
+                        <input type="number" class="form-input form-input" id="input-field-sideCount"
+                            oninput="document.getElementById('input-field-sideCount-slider').value = this.value" min="2"
+                            max="18" step="1" value="6" aria-label="Number of sides">
+                    </div>
+                    <div class="input-row">
+                        <input type="range" id="input-field-sideCount-slider" name="sideCount" class="form-range"
+                            oninput="document.getElementById('input-field-sideCount').value = this.value" min="2"
+                            max="18" step="1" value="6">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Grouping</label>
+                    <div class="input-row">
+                        <input type="number" class="form-input form-input" id="input-field-grouping"
+                            oninput="document.getElementById('input-field-grouping-slider').value = this.value" min="1"
+                            max="20" step="1" value="10" aria-label="Grouping amount">
+                    </div>
+                    <div class="input-row">
+                        <input type="range" id="input-field-grouping-slider" name="grouping" class="form-range"
+                            oninput="document.getElementById('input-field-grouping').value = this.value" min="1"
+                            max="20" step="1" value="10">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="dropdown-innerRelaxation">Inner Relaxation</label>
+                    <div class="select-wrapper">
+                        <select class="form-select" id="dropdown-innerRelaxation" name="innerRelaxation">
+                            <option>None</option>
+                            <option selected>Base</option>
+                            <option>Weighted</option>
+                        </select>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-4 mb-3">
-                <p><b>Height in px:</b></p>
-                <input type="number" class="form-control mb-2" style="width:auto" id="input-field-size" min="480"
-                    max="4096" value="1080">
+            <div class="controls-divider"></div>
+            <!-- Appearance Section -->
+            <div class="controls-section">
+                <p class="section-label">Appearance</p>
+
+                <div class="form-group">
+                    <label class="form-label">Line Width</label>
+                    <div class="input-row">
+                        <input type="number" id="input-field-line-width" class="form-input form-input"
+                            oninput="document.getElementById('input-field-line-width-slider').value = this.value"
+                            min="1" max="50" step="1" value="10">
+                    </div>
+                    <div class="input-row">
+                        <input type="range" id="input-field-line-width-slider" name="linewidth" class="form-range"
+                            oninput="document.getElementById('input-field-line-width').value = this.value" min="1"
+                            max="50" step="1" value="10">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="input-field-line-color">Line Color</label>
+                    <div class="color-input-wrapper">
+                        <input type="color" id="input-field-line-color" class="color-input" value="#000000">
+                        <span class="color-input-hex" id="color-hex-label">#000000</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="input-field-size">Output Height (px)</label>
+                    <input type="number" id="input-field-size" class="form-input" min="480" max="4096" value="1080">
+                </div>
             </div>
-            <div class="col-md-6 col-lg-4 mb-3 align-self-center"> <button id="btn-generate"
-                    class="btn btn-secondary align-self-center">
+            <div class="controls-divider"></div>
+            <!-- Randomization Section -->
+            <div class="controls-section">
+                <p class="section-label">Randomization</p>
+
+                <div class="form-group">
+                    <label class="form-label" for="input-field-seed">Seed</label>
+                    <div class="input-row">
+                        <!-- seed number is read by options.js -->
+                        <input type="number" id="input-field-seed" class="form-input form-input"
+                            oninput="document.getElementById('input-field-seed-slider').value = this.value" min="1"
+                            max="2147483646" step="1" value="1234">
+                    </div>
+                    <div class="input-row">
+                        <input type="range" id="input-field-seed-slider" name="seed" class="form-range"
+                            oninput="document.getElementById('input-field-seed').value = this.value" min="1"
+                            max="2147483646" step="1" value="1234">
+                    </div>
+                    <button id="btn-random-seed" class="btn btn-secondary btn-full" style="margin-top: var(--space-3);">
+                        Random Seed
+                    </button>
+                </div>
+            </div>
+            <div class="controls-divider"></div>
+            <!-- Actions Section -->
+            <div class="controls-section">
+                <button id="btn-generate" class="btn btn-blue btn-full">
                     Generate
-                </button></div>
-
-            <div class="col-md-6 col-lg-4 mb-3 align-self-center">
-                <button id="btn-download-png" class="btn btn-secondary mt-13">Download PNG</button>
-            </div>
-            <div class="col-md-6 col-lg-4 mb-3 align-self-center">
-                <button id="btn-download-svg" class="btn btn-secondary mt-1">Download SVG</button>
-            </div>
-            <div class="col-md-6 col-lg-4 mb-3 align-self-center">
-                <button id="btn-download-svg-rotation" class="btn btn-secondary mt-1">Download SVG Rotations</button>
-            </div>
-            <div class="col-md-6 col-lg-4 mb-3 align-self-center">
-                <button id="btn-download-png-rotation" class="btn btn-secondary mt-1">
-                    Download PNG Rotations
                 </button>
+                <p class="section-label" style="margin-top: var(--space-5);">Export</p>
+                <div class="btn-stack">
+                    <button id="btn-download-png" class="btn btn-secondary btn-full">
+                        Download PNG
+                    </button>
+                    <button id="btn-download-svg" class="btn btn-secondary btn-full">
+                        Download SVG
+                    </button>
+                    <br>
+                    <button id="btn-download-svg-rotation" class="btn btn-secondary btn-full">
+                        Download SVG Rotations
+                    </button>
+                    <button id="btn-download-png-rotation" class="btn btn-secondary btn-full">
+                        Download PNG Rotations
+                    </button>
+                </div>
             </div>
-        </div>
-        <br>
-        <div style="text-align: center; display: none">
-            <h2>canvas</h2>
-            <canvas class="canvas" style="width: auto" id="canvas"></canvas>
-        </div>
-        <div style="text-align: center; display: none">
-            <canvas class="canvas" style="width: auto" id="canvas_60"></canvas>
-        </div>
-        <div style="text-align: center; display: none">
-            <canvas class="canvas" style="width: auto" id="canvas_120"></canvas>
-        </div>
-        <div style="text-align: center; display: none">
-            <canvas class="canvas" style="width: auto" id="canvas_180"></canvas>
-        </div>
-        <div style="text-align: center; display: none">
-            <canvas class="canvas" style="width: auto" id="canvas_240"></canvas>
-        </div>
-        <div style="text-align: center; display: none">
-            <canvas class="canvas" style="width: auto" id="canvas_300"></canvas>
-        </div>
+        </aside>
+        <!-- ── PREVIEW PANEL ─────────────────────────── -->
+        <main class="preview-panel" aria-label="HexGrid preview">
+            <div class="preview-inner">
+                <svg viewBox="-0.87309 -0.55 1.7435 1.1" width="940" height="1080" id="svg_hexgrid"
+                    xmlns="http://www.w3.org/2000/svg"></svg>
+            </div>
+        </main>
+    </div><!-- /.app-layout -->
+    <!-- ── HIDDEN EXPORT TARGETS ────────────────────── -->
+    <!-- These canvases & SVGs are only used by JS export logic -->
+    <div class="hidden-exports" aria-hidden="true">
+        <canvas id="canvas"></canvas>
+        <canvas id="canvas_60"></canvas>
+        <canvas id="canvas_120"></canvas>
+        <canvas id="canvas_180"></canvas>
+        <canvas id="canvas_240"></canvas>
+        <canvas id="canvas_300"></canvas>
 
-        <div class="mb-2" style="text-align: center;">
-            <!-- <h2>svg</h2> -->
-            <svg viewBox="-0.87309 -0.55 1.7435 1.1" width="940" height="1080" id="svg_hexgrid"
-                xmlns="http://www.w3.org/2000/svg"> </svg>
-        </div>
-        <div style="text-align: center;display: none;">
-            <h2>svg 60</h2>
-            <svg viewBox="-0.87309 -0.55 1.7435 1.1" width="940" height="1080" id="svg_hexgrid60"
-                xmlns="http://www.w3.org/2000/svg"> </svg>
-        </div>
-
-
-        <div style="text-align: center;display: none;">
-            <h2>svg 120</h2>
-            <svg viewBox="-0.87309 -0.55 1.7435 1.1" width="940" height="1080" id="svg_hexgrid120"
-                xmlns="http://www.w3.org/2000/svg"> </svg>
-        </div>
-
-        <div style="text-align: center;display: none;">
-            <h2>svg 180</h2>
-            <svg viewBox="-0.87309 -0.55 1.7435 1.1" width="940" height="1080" id="svg_hexgrid180"
-                xmlns="http://www.w3.org/2000/svg"> </svg>
-        </div>
-
-        <div style="text-align: center; display: none;">
-            <h2>svg 240</h2>
-            <svg viewBox="-0.87309 -0.55 1.7435 1.1" width="940" height="1080" id="svg_hexgrid240"
-                xmlns="http://www.w3.org/2000/svg"> </svg>
-        </div>
-
-        <div style="text-align: center;display: none;">
-            <h2>svg 240</h2>
-            <svg viewBox="-0.87309 -0.55 1.7435 1.1" width="940" height="1080" id="svg_hexgrid300"
-                xmlns="http://www.w3.org/2000/svg"> </svg>
-        </div>
-
+        <svg viewBox="-0.87309 -0.55 1.7435 1.1" id="svg_hexgrid60" xmlns="http://www.w3.org/2000/svg"></svg>
+        <svg viewBox="-0.87309 -0.55 1.7435 1.1" id="svg_hexgrid120" xmlns="http://www.w3.org/2000/svg"></svg>
+        <svg viewBox="-0.87309 -0.55 1.7435 1.1" id="svg_hexgrid180" xmlns="http://www.w3.org/2000/svg"></svg>
+        <svg viewBox="-0.87309 -0.55 1.7435 1.1" id="svg_hexgrid240" xmlns="http://www.w3.org/2000/svg"></svg>
+        <svg viewBox="-0.87309 -0.55 1.7435 1.1" id="svg_hexgrid300" xmlns="http://www.w3.org/2000/svg"></svg>
     </div>
+
+    <!-- ── SCRIPTS ───────────────────────────────────── -->
     <script src="scripts/btn-download-png.js"></script>
     <script src="scripts/btn-download-png-rotation.js"></script>
     <script src="scripts/btn-download-svg.js"></script>
@@ -158,7 +195,7 @@
     <script src="scripts/options.js"></script>
     <script src="scripts/linearCongruentialGenerator.js"></script>
     <script src="scripts/drawGrid.js"></script>
-    <script src="scripts/drawSVGGrid.js"></script>
+    <!-- <script src="scripts/drawSVGGrid.js"></script> -->
     <script src="scripts/drawGridToSVG.js"></script>
     <script src="scripts/updateCanvasSize.js"></script>
 
@@ -167,6 +204,36 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.0/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+    <!-- ── THEME TOGGLE + COLOR HEX LABEL ───────────── -->
+    <script>
+        // Theme toggle — persists via localStorage
+        (function () {
+            const root = document.documentElement;
+            const btn = document.getElementById('theme-toggle');
+            const saved = localStorage.getItem('hexgrid-theme');
+
+            if (saved) root.setAttribute('data-theme', saved);
+
+            btn.addEventListener('click', () => {
+                const current = root.getAttribute('data-theme');
+                const next = current === 'dark' ? 'light' : 'dark';
+                root.setAttribute('data-theme', next);
+                localStorage.setItem('hexgrid-theme', next);
+            });
+        })();
+
+        // Sync hex label next to color picker
+        (function () {
+            const picker = document.getElementById('input-field-line-color');
+            const label = document.getElementById('color-hex-label');
+            if (!picker || !label) return;
+            picker.addEventListener('input', () => {
+                label.textContent = picker.value.toUpperCase();
+            });
+        })();
+    </script>
+
 </body>
 
 </html>
